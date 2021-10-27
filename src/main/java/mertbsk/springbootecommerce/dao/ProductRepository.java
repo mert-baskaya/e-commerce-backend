@@ -1,8 +1,11 @@
 package mertbsk.springbootecommerce.dao;
 
 import mertbsk.springbootecommerce.entities.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestParam;
 
 // CORS Politikasını aşmak için yazılır, CORS Politikası tarayıcılarda çalışan JavaScript uygulamaları için geçerlidir
 // Adres çubuğundan yapılan çağrıları etkilemez
@@ -12,4 +15,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 // @CrossOrigin yazıp bırakırsak API'yi aleni (herkese açık) yaparız
 @CrossOrigin("http://localhost:4200")
 public interface ProductRepository extends JpaRepository<Product, Long> {
+
+	// http://localhost:8080/api/products/search/findByCategoryId?id=1
+	Page<Product> findByCategoryId(@RequestParam("id") Long id, Pageable pageable);
+
 }
