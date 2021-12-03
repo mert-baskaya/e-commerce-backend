@@ -5,7 +5,7 @@ import lombok.Data;
 // Bu sınıf Java sınıfını JSON cevabı olarak döndürecek
 @Data
 public class PurchaseResponse {
-
-	private String orderTrackingNumber;
+	// Lombok @NonNull veya final alanlarını constructor'a ekler
+	private final String orderTrackingNumber;
 
 }
