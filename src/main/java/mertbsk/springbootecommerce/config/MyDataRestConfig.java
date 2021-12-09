@@ -4,6 +4,8 @@ import mertbsk.springbootecommerce.entities.Country;
 import mertbsk.springbootecommerce.entities.Product;
 import mertbsk.springbootecommerce.entities.ProductCategory;
 import mertbsk.springbootecommerce.entities.State;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
@@ -19,6 +21,8 @@ import java.util.Set;
 @Configuration
 public class MyDataRestConfig implements RepositoryRestConfigurer {
 
+	@Value("#{allowed.origins")
+	private String[] allowedOrigins;
 	private final EntityManager entityManager;
 
 	public MyDataRestConfig(EntityManager entityManager) {
@@ -34,32 +38,28 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
 		HttpMethod[] unsupportedActions = {HttpMethod.PUT, HttpMethod.POST, HttpMethod.DELETE};
 
 		// Product'ın PUT, POST ve DELETE HTTP metotlarını devre dışı bırakır
-		config.getExposureConfiguration()
-				.forDomainType(Product.class)
-				.withItemExposure((metdata, httpMethods) -> httpMethods.disable(unsupportedActions))
-				.withCollectionExposure((metdata, httpMethods) -> httpMethods.disable(unsupportedActions));
+		disableHttpMethods(Product.class,config,unsupportedActions);
 
 		// ProductCategory'nin PUT, POST ve DELETE HTTP metotlarını devre dışı bırakır
-		config.getExposureConfiguration()
-				.forDomainType(ProductCategory.class)
-				.withItemExposure((metdata, httpMethods) -> httpMethods.disable(unsupportedActions))
-				.withCollectionExposure((metdata, httpMethods) -> httpMethods.disable(unsupportedActions));
+		disableHttpMethods(ProductCategory.class,config,unsupportedActions);
 
 		// Country'nin PUT, POST ve DELETE HTTP metotlarını devre dışı bırakır
-		config.getExposureConfiguration()
-				.forDomainType(Country.class)
-				.withItemExposure((metdata, httpMethods) -> httpMethods.disable(unsupportedActions))
-				.withCollectionExposure((metdata, httpMethods) -> httpMethods.disable(unsupportedActions));
+		disableHttpMethods(Country.class,config,unsupportedActions);
 
 		// State'nin PUT, POST ve DELETE HTTP metotlarını devre dışı bırakır
-		config.getExposureConfiguration()
-				.forDomainType(State.class)
-				.withItemExposure((metdata, httpMethods) -> httpMethods.disable(unsupportedActions))
-				.withCollectionExposure((metdata, httpMethods) -> httpMethods.disable(unsupportedActions));
+		disableHttpMethods(State.class,config,unsupportedActions);
 
 		// Id'leri ortaya çıkarmak için iç metot çağırılır
 		exposeIds(config);
 	}
+	
+	private void disableHttpMethods (Class theClass, @NotNull RepositoryRestConfiguration config , HttpMethod[] unsupportedActions){
+		config.getExposureConfiguration()
+				.forDomainType(theClass)
+				.withItemExposure((metdata, httpMethods) -> httpMethods.disable(unsupportedActions))
+				.withCollectionExposure((metdata, httpMethods) -> httpMethods.disable(unsupportedActions));
+	}
+	
 
 	// Bu metot çağrıların içine entity id'leri parametre olarak ekler
 	private void exposeIds(RepositoryRestConfiguration config) {
