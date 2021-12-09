@@ -1,9 +1,6 @@
 package mertbsk.springbootecommerce.config;
 
-import mertbsk.springbootecommerce.entities.Country;
-import mertbsk.springbootecommerce.entities.Product;
-import mertbsk.springbootecommerce.entities.ProductCategory;
-import mertbsk.springbootecommerce.entities.State;
+import mertbsk.springbootecommerce.entities.*;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -37,17 +34,20 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
 
 		HttpMethod[] unsupportedActions = {HttpMethod.PUT, HttpMethod.POST, HttpMethod.DELETE};
 
-		// Product'ın PUT, POST ve DELETE HTTP metotlarını devre dışı bırakır
+		// Product'ı  salt okunur yapar
 		disableHttpMethods(Product.class,config,unsupportedActions);
 
-		// ProductCategory'nin PUT, POST ve DELETE HTTP metotlarını devre dışı bırakır
+		// ProductCategory'yi  salt okunur yapar
 		disableHttpMethods(ProductCategory.class,config,unsupportedActions);
 
-		// Country'nin PUT, POST ve DELETE HTTP metotlarını devre dışı bırakır
+		// Country'yi  salt okunur yapar
 		disableHttpMethods(Country.class,config,unsupportedActions);
 
-		// State'nin PUT, POST ve DELETE HTTP metotlarını devre dışı bırakır
+		// State'i  salt okunur yapar
 		disableHttpMethods(State.class,config,unsupportedActions);
+		
+		// Order'ı salt okunur yapar
+		disableHttpMethods(Order.class, config, unsupportedActions);
 
 		// Id'leri ortaya çıkarmak için iç metot çağırılır
 		exposeIds(config);
