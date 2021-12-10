@@ -4,6 +4,7 @@ import mertbsk.springbootecommerce.entities.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.web.bind.annotation.RequestParam;
 
 // CORS Politikasını aşmak için yazılır, CORS Politikası tarayıcılarda çalışan JavaScript uygulamaları için geçerlidir
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 // {{ http://localhost:4200 }} != {{ http://localhost:8080 }}
 // @CrossOrigin yazıp bırakırsak API'yi aleni (herkese açık) yaparız
 // 09.12.2021 Düzenleme: Cross Origin düzenlemeleri application.properties dosyasına taşındı
+@RepositoryRestResource
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
 	// http://localhost:8080/api/products/search/findByCategoryId?id=1
