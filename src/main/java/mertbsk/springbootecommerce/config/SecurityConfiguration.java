@@ -1,5 +1,6 @@
 package mertbsk.springbootecommerce.config;
 
+import com.okta.spring.boot.oauth.Okta;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -20,6 +21,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		
 		// CORS Filtrelerini ekler
 		http.cors();
+		
+		// Browser dışındaki kaynakları kullanıma aç
+		http.csrf().disable();
+		
+		// 401 TODO
+		Okta.configureResourceServer401ResponseBody(http);
 	
 	}
 }
