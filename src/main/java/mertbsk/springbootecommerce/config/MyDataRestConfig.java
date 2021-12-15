@@ -56,6 +56,7 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
 		cors.addMapping(config.getBasePath() + "/**").allowedOrigins(allowedOrigins);
 	}
 	
+	@SuppressWarnings("rawtypes")
 	private void disableHttpMethods (Class theClass, @NotNull RepositoryRestConfiguration config , HttpMethod[] unsupportedActions){
 		config.getExposureConfiguration()
 				.forDomainType(theClass)
@@ -65,6 +66,7 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
 	
 
 	// Bu metot çağrıların içine entity id'leri parametre olarak ekler
+	@SuppressWarnings("rawtypes")
 	private void exposeIds(RepositoryRestConfiguration config) {
 
 		// Entity manager'dan tüm entity'ler birer key-value çifti olarak getirilir
