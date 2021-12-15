@@ -43,6 +43,15 @@ public class CheckoutServiceImpl implements CheckoutService{
 
 		// Müşteriye sipariş bilgisini ekle
 		Customer customer = purchase.getCustomer();
+		
+		// Müşterinin veritabanında olup olmadığını kontrol et
+		String email = customer.getEmail();
+		Customer customerFromDB = customerRepository.findByEmail(email);
+		if (customerFromDB != null){
+			// Müşteri önceden kaydolduysa metodda kullanılan müşteriye ata
+			customer = customerFromDB;
+		}
+		
 		customer.add(order);
 
 		// Veritabanına kaydet
